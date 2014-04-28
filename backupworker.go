@@ -32,6 +32,7 @@ func backupWorker(queue string, args ...interface{}) error {
 	return nil
 }
 
+// args: targets, cluster id, replay id, topic, partition, start date, end date
 func replayWorker(queue string, args ...interface{}) error {
 	configFilename := "consumer.properties"
 	config, err := configfile.ReadConfigFile(configFilename)
@@ -46,10 +47,11 @@ func replayWorker(queue string, args ...interface{}) error {
 
 	targets := strings.Split(args[0].(string), ",")
 	clusterId := args[1].(string)
-	topic := args[2].(string)
-	partition := int(args[3].(float64))
-	startDateStr := args[4].(string)
-	endDateStr := args[5].(string)
+	replayId := int(args[2].(float64))
+	topic := args[3].(string)
+	partition := int(args[4].(float64))
+	startDateStr := args[5].(string)
+	endDateStr := args[6].(string)
 
 	startDate, _ := time.Parse("2006-01-02", startDateStr)
 	endDate, _ := time.Parse("2006-01-02", endDateStr)
